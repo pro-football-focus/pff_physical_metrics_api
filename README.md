@@ -8,15 +8,19 @@ If you have a question that is not addressed here, there are several ways to get
 - Drop us a note at fchelp@pff.com 
 
 ## Documentation
-Upload documentation
+TO DO: Upload documentation
 
 ## Installation
-How to install
+Use your unique PFF FC API key or request an API key by emailing fchelp@pff.com.
 ```
 pip install git+https://github.com/pro-football-focus/pff_physical_metrics_api.git
 ```
 ## Usage
-How to use
+After successfully installing the package, import it:
+```
+from pff_physical_metrics_api import functions
+```
+Make sure to use the URL and key that your are provided with.
 
 ## GraphQL Resources
 GraphQL is the query language for PFF FC’s APIs and provides an alternative to REST and ad-hoc webservice architectures. It allows clients to define the structure of the data required, and exactly the same structure of the data is returned from the server. It is a strongly typed runtime which allows clients to dictate what data is needed.
