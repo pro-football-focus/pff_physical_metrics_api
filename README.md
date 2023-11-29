@@ -12,7 +12,9 @@ Upload documentation
 
 ## Installation
 How to install
-
+```
+pip install git+https://github.com/pro-football-focus/pff_physical_metrics_api.git
+```
 ## Usage
 How to use
 
