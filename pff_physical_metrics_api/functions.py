@@ -76,8 +76,8 @@ def get_players_competition(url, key, competition_id):
     except:
         print(response.text)
 
-def physicalMetricsGameReport(url, key, game):
-    payload = "{\"query\":\"query {\\n    physicalMetricsGameReport(gameId: " + str(game) + ", clock:\\\"\\\") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n    }\\n  }\",\"variables\":{}}"
+def physicalMetricsGameReport(url, key, game_id):
+    payload = "{\"query\":\"query {\\n    physicalMetricsGameReport(gameId: " + str(game_id) + ", clock:\\\"\\\") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n    }\\n  }\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
@@ -86,8 +86,8 @@ def physicalMetricsGameReport(url, key, game):
     except:
         print(response.text)
 
-def physicalMetricsPlayerReport(url, key, competition, season, player):
-    payload = "{\"query\":\"query {\\n    playerPhysicalMetricsReport(competitionId: " + str(competition) + ", season: \\\"" + str(season) + "\\\", playerId: " + str(player) + ") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n  }\\n}\",\"variables\":{}}"
+def physicalMetricsPlayerReport(url, key, competition_id, season, player_id):
+    payload = "{\"query\":\"query {\\n    playerPhysicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", playerId: " + str(player_id) + ") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n  }\\n}\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
@@ -96,8 +96,8 @@ def physicalMetricsPlayerReport(url, key, competition, season, player):
     except:
         print(response.text)
 
-def physicalMetricsTeamReport(url, key, competition, season, teams):
-    payload = "{\"query\":\"query {\\n  teamPhysicalMetricsReport(competitionId: " + str(competition) + ", season: \\\"" + str(season) + "\\\", teams: " + str(teams) + ") {\\n    teamId\\n    team\\n    visFramePct\\n    gam\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
+def physicalMetricsTeamReport(url, key, competition_id, season, teams):
+    payload = "{\"query\":\"query {\\n  teamPhysicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", teams: " + str(teams) + ") {\\n    teamId\\n    team\\n    visFramePct\\n    gam\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
@@ -106,8 +106,8 @@ def physicalMetricsTeamReport(url, key, competition, season, teams):
     except:
         print(response.text)
 
-def physicalMetricsPositionReport(url, key, competition, season):
-    payload = "{\"query\":\"query {\\n  physicalMetricsReport(competitionId: " + str(competition) + ", season: \\\"" + str(season) + "\\\") {\\n    playerId\\n    player\\n    shirtNumber\\n    pos\\n    age\\n    teamId\\n    team\\n    visFramePct\\n    str\\n    sub\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
+def physicalMetricsPositionReport(url, key, competition_id, season):
+    payload = "{\"query\":\"query {\\n  physicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\") {\\n    playerId\\n    player\\n    shirtNumber\\n    pos\\n    age\\n    teamId\\n    team\\n    visFramePct\\n    str\\n    sub\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
