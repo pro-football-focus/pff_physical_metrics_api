@@ -15,6 +15,11 @@ Use your unique PFF FC API key or request an API key by emailing fchelp@pff.com.
 ```
 pip install git+https://github.com/pro-football-focus/pff_physical_metrics_api.git
 ```
+To uninstall, use:
+```
+pip uninstall pff_physical_metrics_api
+```
+
 ## Usage
 After successfully installing the package, import it:
 ```
