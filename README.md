@@ -45,8 +45,8 @@ functions.get_players_competition(url, key, competition_id)
 ```
 
 After retrieving PFF FC's unique identifiers, you can retrieve physical metrics using the functions below with the following parameters:
-  • clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only, "15:01 - 45:00+" for the last 30 minutes of each first half only, etc.
-  • vis_filter: an integer to filter out games with low visibilty for a team: 0 for all games, 10 to filter out when teams are below 10% visibility.
+- clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only, "15:01 - 45:00+" for the last 30 minutes of each first half only, etc.
+- vis_filter: an integer to filter out games with low visibilty for a team: 0 for all games, 10 to filter out when teams are below 10% visibility.
 
 To retrieve physical metrics for all players in a game, use:
 ```
