@@ -44,23 +44,25 @@ In order to retrieve all players from a specific competition, run:
 functions.get_players_competition(url, key, competition_id)
 ```
 
-After retrieving PFF FC's unique identifiers, you can retrieve physical metrics using the functions below.
+After retrieving PFF FC's unique identifiers, you can retrieve physical metrics using the functions below with the following parameters:
+  • clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only, "15:01 - 45:00+" for the last 30 minutes of each first half only, etc.
+  • vis_filter: an integer to filter out games with low visibilty for a team: 0 for all games, 10 to filter out when teams are below 10% visibility.
 
 To retrieve physical metrics for all players in a game, use:
 ```
-functions.physicalMetricsGameReport(url, key, game_id)
+functions.physicalMetricsGameReport(url, key, game_id, clock_filter = "")
 ```
 To retrieve physical metrics per game for a single player in a given season of a competition, use:
 ```
-functions.physicalMetricsPlayerReport(url, key, competition_id, season, player_id)
+functions.physicalMetricsPlayerReport(url, key, competition_id, season, player_id, clock_filter = "", vis_filter = 10)
 ```
 To retrieve aggregated physical metrics for all players in a given season of a competition, use:
 ```
-functions.physicalMetricsPositionReport(url, key, competition_id, season)
+functions.physicalMetricsPositionReport(url, key, competition_id, season, clock_filter = "", vis_filter = 10)
 ```
 To retrieve aggregated physical metrics for teams in a given season of a competition, use:
 ```
-functions.physicalMetricsTeamReport(url, key, competition_id, season, teams)
+functions.physicalMetricsTeamReport(url, key, competition_id, season, teams, clock_filter = "", vis_filter = 10)
 ```
 Where teams is a list of team identifiers.
 
