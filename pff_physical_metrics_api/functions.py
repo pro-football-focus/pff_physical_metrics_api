@@ -144,7 +144,7 @@ def get_players_competition(url, key, competition_id):
 
 def get_player(url, key, player_id):
     ''' 
-    Retrieves information of a player for a given .
+    Retrieves information of a player for a given player_id.
     
     Parameters
     -----------
