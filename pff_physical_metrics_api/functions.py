@@ -129,7 +129,11 @@ def get_players_competition(url, key, competition_id):
         df['rank'] = df.groupby('id')['index'].rank('dense', ascending = False)
         df = df[df['rank'] == 1]
         # df = df.drop_duplicates()
-        df = df.drop(columns = [0,'index','rank'])
+        for col in [0,'index','rank']:
+            try:
+                df = df.drop(columns = [col])
+            except:
+                continue
         df = df.dropna(how = 'all', axis = 0)
         
         df['id'] = df['id'].astype(int)
