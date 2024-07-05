@@ -142,6 +142,32 @@ def get_players_competition(url, key, competition_id):
     except:
         print(response.text)
 
+def get_player(url, key, player_id):
+    ''' 
+    Retrieves information of a player for a given .
+    
+    Parameters
+    -----------
+    
+    url: a string that points toward the API, i.e. 'https://faraday.pff.com/api'
+    key: a string that serves as the API key
+    player_id: an integer to select the player
+
+    Returns
+    ---------
+    
+    df: a dataframe containing the player information
+    
+    '''
+    payload = "{\"query\":\"query player ($id: ID!) {\\n    player (id: $id) {\\n        id\\n        firstName\\n        lastName\\n        nickname\\n        positionGroupType\\n        nationality {\\n            id\\n            country\\n        }\\n        secondNationality {\\n            id\\n            country\\n        }\\n        weight\\n        height\\n        dob\\n        gender\\n        countryOfBirth {\\n            id\\n            country\\n        }\\n        euMember\\n        rosters {\\n            game {\\n                id\\n            }\\n            started\\n        }\\n    }\\n}\",\"variables\":{\"id\":" + str(player_id) + "}}"
+    response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
+    
+    try:
+        df = pd.DataFrame(response.json()['data']['player'])
+        return df.infer_objects()
+    except:
+        print(response.text)
+
 def physicalMetricsGameReport(url, key, game_id, clock_filter = ""):
     ''' 
     Retrieves physical metrics per player for a given game.
