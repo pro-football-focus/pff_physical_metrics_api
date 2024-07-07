@@ -159,11 +159,11 @@ def get_player(url, key, player_id):
     df: a dataframe containing the player information
     
     '''
-    payload = "{\"query\":\"query player ($id: ID!) {\\n    player (id: $id) {\\n        id\\n        firstName\\n        lastName\\n        nickname\\n        positionGroupType\\n        nationality {\\n            id\\n            country\\n        }\\n        secondNationality {\\n            id\\n            country\\n        }\\n        weight\\n        height\\n        dob\\n        gender\\n        countryOfBirth {\\n            id\\n            country\\n        }\\n        euMember\\n        rosters {\\n            game {\\n                id\\n            }\\n            started\\n        }\\n    }\\n}\",\"variables\":{\"id\":" + str(player_id) + "}}"
+    payload = "{\"query\":\"query player ($id: ID!) {\\n    player (id: $id) {\\n        id\\n        firstName\\n        lastName\\n        nickname\\n        positionGroupType\\n        nationality {\\n            id\\n            country\\n        }\\n        secondNationality {\\n            id\\n            country\\n        }\\n        weight\\n        height\\n        dob\\n        gender\\n        countryOfBirth {\\n            id\\n            country\\n        }\\n        euMember\\n        rosters {\\n            game {\\n                id\\n            }\\n            started\\n        }\\n        transfermarktPlayerId\\n    }\\n}\",\"variables\":{\"id\":" + str(player_id) + "}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
     
     try:
-        df = pd.DataFrame(response.json()['data']['player'])
+        df = pd.json_normalize(response.json()['data']['player'])
         return df.infer_objects()
     except:
         print(response.text)
