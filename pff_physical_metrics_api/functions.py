@@ -92,6 +92,33 @@ def get_games(url, key, competition_id):
     except:
         print(response.text)
 
+def get_visibility(url, key, competition_id, season):
+    ''' 
+    Retrieves visibility information per team for all games available in a given competition and season.
+    
+    Parameters
+    -----------
+    
+    url: a string that points toward the API, i.e. 'https://faraday.pff.com/api'
+    key: a string that serves as the API key
+    competition_id: an integer to select the competition
+    season: a string to select the season
+
+    Returns
+    ---------
+    
+    df: a dataframe containing the visibility information
+    
+    '''
+    payload = "{\"query\":\"query {\\n  lowTeamVisibility(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", visibilityThreshold: 100) {\\n    gameId\\n    teamId\\n    teamVisibility\\n  }\\n}\",\"variables\":{}}"
+    response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
+    
+    try:
+        df = pd.DataFrame.from_dict(response.json()['data']['lowTeamVisibility'])
+        return df.infer_objects()
+    except:
+        print(response.text)
+
 def get_players_competition(url, key, competition_id):
     ''' 
     Retrieves information of all players available in a given competition.
