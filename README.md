@@ -39,9 +39,17 @@ In order to retrieve all games from a specific competition, run:
 ```
 functions.get_games(url, key, competition_id)
 ```
+To retrieve visibility information per team for all games available in a given competition and season, run:
+```
+functions.get_visibility(url, key, competition_id, season)
+```
 In order to retrieve all players from a specific competition, run:
 ```
 functions.get_players_competition(url, key, competition_id)
+```
+Or alternatively, to retrieve player information for a specific player, run:
+```
+get_player(url, key, player_id)
 ```
 
 After retrieving PFF FC's unique identifiers, you can retrieve physical metrics using the functions below with the following parameters:
