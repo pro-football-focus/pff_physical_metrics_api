@@ -49,7 +49,7 @@ functions.get_players_competition(url, key, competition_id)
 ```
 Or alternatively, to retrieve player information for a specific player, run:
 ```
-get_player(url, key, player_id)
+functions.get_player(url, key, player_id)
 ```
 
 After retrieving PFF FC's unique identifiers, you can retrieve physical metrics using the functions below with the following parameters:
