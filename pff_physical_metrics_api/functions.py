@@ -119,7 +119,7 @@ def get_visibility(url, key, competition_id, season):
     except:
         print(response.text)
 
-def get_players_competition(url, key, competition_id):
+def get_players_competition(url, key, competition_id, season):
     ''' 
     Retrieves information of all players available in a given competition.
     
@@ -129,6 +129,7 @@ def get_players_competition(url, key, competition_id):
     url: a string that points toward the API, i.e. 'https://faraday.pff.com/api'
     key: a string that serves as the API key
     competition_id: an integer to select the competition
+    season: a string to select the season
 
     Returns
     ---------
@@ -141,6 +142,7 @@ def get_players_competition(url, key, competition_id):
 
     try:
         df = pd.DataFrame(response.json()['data']['competition']['games'])
+        df = df[df['season'] == season]
         df = df['rosters'].apply(pd.Series)
         df = df.dropna(how = 'all', axis = 0)
         
