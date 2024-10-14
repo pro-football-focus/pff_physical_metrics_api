@@ -121,7 +121,7 @@ def get_visibility(url, key, competition_id, season):
 
 def get_players_competition(url, key, competition_id, season):
     ''' 
-    Retrieves information of all players available in a given competition.
+    Retrieves information of all players available in a given season of a competition.
     
     Parameters
     -----------
@@ -171,6 +171,56 @@ def get_players_competition(url, key, competition_id, season):
     except:
         print(response.text)
 
+def get_players_competition_all(url, key, competition_id):
+    ''' 
+    Retrieves information of all players available in a given competition.
+    
+    Parameters
+    -----------
+    
+    url: a string that points toward the API, i.e. 'https://faraday.pff.com/api'
+    key: a string that serves as the API key
+    competition_id: an integer to select the competition
+
+    Returns
+    ---------
+    
+    df: a dataframe containing the player information
+    
+    '''
+    payload = "{\"query\":\"query competition ($id: ID!) {\\n    competition (id: $id) {\\n        games {\\n            season\\n            rosters {\\n                player {\\n                    id\\n                    firstName\\n                    lastName\\n                    nickname\\n                    positionGroupType\\n                    nationality {\\n                        id\\n                        country\\n                    }\\n                    secondNationality {\\n                        id\\n                        country\\n                    }\\n                    weight\\n                    height\\n                    dob\\n                    gender\\n                    countryOfBirth {\\n                        id\\n                        country\\n                    }\\n                    euMember\\n                    transfermarktPlayerId\\n                }\\n            }\\n        }\\n    }\\n}\",\"variables\":{\"id\":" + str(competition_id) + "}}"
+    response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
+
+    try:
+        df = pd.DataFrame(response.json()['data']['competition']['games'])
+        df = df['rosters'].apply(pd.Series)
+        df = df.dropna(how = 'all', axis = 0)
+        
+        oneCol = []
+        colLength = len(list(df.columns))
+        for k in range(colLength):
+            oneCol.append(df[k])
+        
+        df = pd.concat(oneCol, ignore_index = True)
+        df = df.apply(pd.Series)['player'].apply(pd.Series)
+        
+        df = df.reset_index(drop = False)
+        df['rank'] = df.groupby('id')['index'].rank('dense', ascending = False)
+        df = df[df['rank'] == 1]
+        # df = df.drop_duplicates()
+        for col in [0,'index','rank']:
+            try:
+                df = df.drop(columns = [col])
+            except:
+                continue
+        df = df.dropna(how = 'all', axis = 0)
+        
+        df['id'] = df['id'].astype(int)
+        
+        return df.infer_objects()
+    except:
+        print(response.text)
+        
 def get_player(url, key, player_id):
     ''' 
     Retrieves information of a player for a given player_id.
