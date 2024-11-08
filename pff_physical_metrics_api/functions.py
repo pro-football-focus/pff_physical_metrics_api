@@ -263,7 +263,7 @@ def get_player(url, key, player_id):
     except:
         print(response.text)
 
-def physicalMetricsGameReport(url, key, game_id, clock_filter = ""):
+def physicalMetricsGameReport(url, key, game_id, clock_filter = "", possession_filter = "all"):
     ''' 
     Retrieves physical metrics per player for a given game.
     
@@ -273,15 +273,16 @@ def physicalMetricsGameReport(url, key, game_id, clock_filter = ""):
     url: a string that points toward the API, i.e. 'https://faraday.pff.com/api'
     key: a string that serves as the API key
     game_id: an integer to select the game
-    clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only    
-
+    clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only, etc.   
+    possession_filter: a string to select possession type, i.e. "all" for all, "I" for in-possession, "O" for out-possession or "N" for ball out of play
+        
     Returns
     ---------
     
     df: a dataframe containing the physical metrics
     
     '''
-    payload = "{\"query\":\"query {\\n    physicalMetricsGameReport(gameId: " + str(game_id) + ", clock:\\\"" + str(clock_filter) + "\\\") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n    }\\n  }\",\"variables\":{}}"
+    payload = "{\"query\":\"query {\\n    physicalMetricsGameReport(gameId: " + str(game_id) + ", clock:\\\"" + str(clock_filter) + "\\\", inPossession: \\\"" + str(possession_filter) + "\\\") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n    }\\n  }\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
@@ -290,7 +291,7 @@ def physicalMetricsGameReport(url, key, game_id, clock_filter = ""):
     except:
         print(response.text)
 
-def physicalMetricsPlayerReport(url, key, competition_id, season, player_id, clock_filter = "", vis_filter = 10):
+def physicalMetricsPlayerReport(url, key, competition_id, season, player_id, clock_filter = "", vis_filter = 10, possession_filter = "all"):
     ''' 
     Retrieves physical metrics per game for players in a given season of a competition.
     
@@ -304,6 +305,7 @@ def physicalMetricsPlayerReport(url, key, competition_id, season, player_id, clo
     player_id: an integer to select the player
     clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only
     vis_filter: an integer to filter out games with low visibilty for a team: 0 for all games, 10 to filter out when teams are below 10% visibility
+    possession_filter: a string to select possession type, i.e. "all" for all, "I" for in-possession, "O" for out-possession or "N" for ball out of play
 
     Returns
     ---------
@@ -311,7 +313,7 @@ def physicalMetricsPlayerReport(url, key, competition_id, season, player_id, clo
     df: a dataframe containing the physical metrics
     
     '''
-    payload = "{\"query\":\"query {\\n    playerPhysicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", playerId: " + str(player_id) + ", clock: \\\"" + str(clock_filter) + "\\\", teamVis: " + str(vis_filter) + ") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n  }\\n}\",\"variables\":{}}"
+    payload = "{\"query\":\"query {\\n    playerPhysicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", playerId: " + str(player_id) + ", clock: \\\"" + str(clock_filter) + "\\\", teamVis: " + str(vis_filter) + ", inPossession: \\\"" + str(possession_filter) + "\\\") {\\n      playerId\\n      player\\n      shirtNumber\\n      pos\\n      age\\n      teamId\\n      team\\n      gameDate\\n      gam\\n      visFramePct\\n      app\\n      str\\n      sub\\n      min\\n      tot\\n      spr\\n      hsr\\n      lsr\\n      jog\\n      walk\\n      sprPct\\n      hsrPct\\n      sprt\\n      hsrt\\n      lsrt\\n      jogt\\n      walkt\\n      accel\\n      decel\\n      sprc\\n      hsrc\\n      maxspeed\\n      avgspeed\\n  }\\n}\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
@@ -320,7 +322,7 @@ def physicalMetricsPlayerReport(url, key, competition_id, season, player_id, clo
     except:
         print(response.text)
 
-def physicalMetricsTeamReport(url, key, competition_id, season, teams, clock_filter = "", vis_filter = 10):
+def physicalMetricsTeamReport(url, key, competition_id, season, teams, clock_filter = "", vis_filter = 10, possession_filter = "all"):
     ''' 
     Retrieves aggregated physical metrics for teams in a given season of a competition.
     
@@ -334,6 +336,7 @@ def physicalMetricsTeamReport(url, key, competition_id, season, teams, clock_fil
     teams: a list identifiers to select the teams, e.g. [67, 78]
     clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only
     vis_filter: an integer to filter out games with low visibilty for a team: 0 for all games, 10 to filter out when teams are below 10% visibility
+    possession_filter: a string to select possession type, i.e. "all" for all, "I" for in-possession, "O" for out-possession or "N" for ball out of play
 
     Returns
     ---------
@@ -341,7 +344,7 @@ def physicalMetricsTeamReport(url, key, competition_id, season, teams, clock_fil
     df: a dataframe containing the physical metrics
     
     '''
-    payload = "{\"query\":\"query {\\n  teamPhysicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", teams: " + str(teams) + ", clock: \\\"" + str(clock_filter) + "\\\", teamVis: " + str(vis_filter) + ") {\\n    teamId\\n    team\\n    visFramePct\\n    gam\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
+    payload = "{\"query\":\"query {\\n  teamPhysicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", teams: " + str(teams) + ", clock: \\\"" + str(clock_filter) + "\\\", teamVis: " + str(vis_filter) + ", inPossession: \\\"" + str(possession_filter) + "\\\") {\\n    teamId\\n    team\\n    visFramePct\\n    gam\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
@@ -350,7 +353,7 @@ def physicalMetricsTeamReport(url, key, competition_id, season, teams, clock_fil
     except:
         print(response.text)
 
-def physicalMetricsPositionReport(url, key, competition_id, season, clock_filter = "", vis_filter = 10):
+def physicalMetricsPositionReport(url, key, competition_id, season, clock_filter = "", vis_filter = 10, possession_filter = "all"):
     ''' 
     Retrieves aggregated physical metrics for players in a given season of a competition.
     
@@ -363,6 +366,7 @@ def physicalMetricsPositionReport(url, key, competition_id, season, clock_filter
     season: a string to select the season, e.g. "2022" or "2022-2023"
     clock_filter: a string to select periods of games, e.g. "" for whole games, "00:00 - 15:00" for the first 15 minutes of games only
     vis_filter: an integer to filter out games with low visibilty for a team: 0 for all games, 10 to filter out when teams are below 10% visibility
+    possession_filter: a string to select possession type, i.e. "all" for all, "I" for in-possession, "O" for out-possession or "N" for ball out of play
 
     Returns
     ---------
@@ -370,7 +374,7 @@ def physicalMetricsPositionReport(url, key, competition_id, season, clock_filter
     df: a dataframe containing the physical metrics
     
     '''
-    payload = "{\"query\":\"query {\\n  physicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", clock: \\\"" + str(clock_filter) + "\\\", teamVis: " + str(vis_filter) + ") {\\n    playerId\\n    player\\n    shirtNumber\\n    pos\\n    age\\n    teamId\\n    team\\n    visFramePct\\n    str\\n    sub\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
+    payload = "{\"query\":\"query {\\n  physicalMetricsReport(competitionId: " + str(competition_id) + ", season: \\\"" + str(season) + "\\\", clock: \\\"" + str(clock_filter) + "\\\", teamVis: " + str(vis_filter) + ", inPossession: \\\"" + str(possession_filter) + "\\\") {\\n    playerId\\n    player\\n    shirtNumber\\n    pos\\n    age\\n    teamId\\n    team\\n    visFramePct\\n    app\\n    str\\n    sub\\n    min\\n    tot\\n    spr\\n    hsr\\n    lsr\\n    jog\\n    walk\\n    sprPct\\n    hsrPct\\n    sprt\\n    hsrt\\n    lsrt\\n    jogt\\n    walkt\\n    accel\\n    decel\\n    sprc\\n    hsrc\\n    maxspeed\\n    avgspeed\\n  }\\n}\",\"variables\":{}}"
     response = requests.request("POST", url, headers = {'x-api-key': key, 'Content-Type': 'application/json'}, data = payload)
 
     try:
